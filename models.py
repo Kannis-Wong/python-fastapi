@@ -12,6 +12,7 @@ class Gender(str, Enum):
 class Role(str, Enum):
     admin = "admin"
     user = "user"
+    viewer = "viewer"
     student = "student"
 
 
