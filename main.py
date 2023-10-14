@@ -4,6 +4,7 @@ from models  import User, Gender, Role
 from uuid    import UUID
 import uvicorn
 
+
 app = FastAPI()
 
 db: List[User] = [
@@ -40,6 +41,15 @@ async def fetch_users():
 async def register_user(user: User):
     db.append(user)
     return {"id": user.id}
+
+
+@app.delete("/api/v1/users/{user_id}")
+async def delete_user(user_id: UUID):
+    for user in db:
+        if user.id == user_id:
+            db.remove(user)
+            return
+
 
 if __name__ == "__main__":
     config = uvicorn.Config("main:app", port=6102, log_level="info")
