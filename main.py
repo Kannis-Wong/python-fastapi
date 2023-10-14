@@ -1,8 +1,8 @@
-from typing import List
+from typing  import List
 from fastapi import FastAPI
-from models import User, Gender, Role
-from uuid import UUID
-
+from models  import User, Gender, Role
+from uuid    import UUID
+from uvicorn import uvicorn
 
 app = FastAPI()
 
@@ -32,3 +32,9 @@ async def root():
 @app.get("/api/v1/users")
 async def fetch_users():
     return db
+
+
+@app.post("/api/v1/users")
+async def register_user(user: User):
+    db.append(user)
+    return {"id": user.id}
