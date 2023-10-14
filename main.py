@@ -38,3 +38,8 @@ async def fetch_users():
 async def register_user(user: User):
     db.append(user)
     return {"id": user.id}
+
+if __name__ == "__main__":
+    config = uvicorn.Config("main:app", port=6102, log_level="info")
+    server = uvicorn.Server(config)
+    server.run()
