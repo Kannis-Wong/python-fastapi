@@ -1,6 +1,6 @@
 from typing  import List
 from fastapi import FastAPI, HTTPException
-from models  import User, Gender, Role
+from models  import User, Gender, Role, UserUpdateRequest
 from uuid    import UUID
 import uvicorn
 
@@ -49,6 +49,25 @@ async def delete_user(user_id: UUID):
         if user.id == user_id:
             db.remove(user)
             return
+    raise HTTPException(
+        status_code=404,
+        detail=f"user with id: {user_id} does not exist!"
+    )
+
+
+@app.put("/api/v1/users/{user_id}")
+async def modify_user(new_data: UserUpdateRequest, user_id: UUID):
+    for user in db:
+        if user.id == user_id:
+            if new_data.first_name is not None:
+                user.first_name = new_data.first_name
+            if new_data.last_name is not None:
+                user.last_name = new_data.last_name
+            if new_data.gender is not None:
+                user.gender = new_data.gender
+            if new_data.roles is not None:
+                user.roles = new_data.roles
+            return user
     raise HTTPException(
         status_code=404,
         detail=f"user with id: {user_id} does not exist!"
