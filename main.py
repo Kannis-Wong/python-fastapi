@@ -75,6 +75,6 @@ async def modify_user(new_data: UserUpdateRequest, user_id: UUID):
 
 
 if __name__ == "__main__":
-    config = uvicorn.Config("main:app", port=6102, log_level="info")
+    config = uvicorn.Config("main:app", port=6102, log_level="info", log_config="log_config//log_config.yaml")
     server = uvicorn.Server(config)
     server.run()
