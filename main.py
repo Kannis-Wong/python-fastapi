@@ -37,6 +37,13 @@ async def fetch_users():
     return db
 
 
+@app.get("/log")
+async def get_file():
+    with open("log/log.txt", "r") as f:
+        content = f.read()
+    return {"log": content}
+
+
 @app.post("/api/v1/users")
 async def register_user(user: User):
     db.append(user)
@@ -75,6 +82,6 @@ async def modify_user(new_data: UserUpdateRequest, user_id: UUID):
 
 
 if __name__ == "__main__":
-    config = uvicorn.Config("main:app", port=6102, log_level="info")
+    config = uvicorn.Config("main:app", port=6102, log_level="info", log_config="log_config//log_config.yaml")
     server = uvicorn.Server(config)
     server.run()
