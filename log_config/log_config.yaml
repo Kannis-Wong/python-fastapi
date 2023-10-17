@@ -4,18 +4,20 @@ formatters:
   default:
     (): 'uvicorn.logging.DefaultFormatter'
     fmt: '%(asctime)s %(levelprefix)-9s %(name)s -: %(message)s'
+    use_colors: False
   access:
     (): 'uvicorn.logging.AccessFormatter'
     fmt: '%(asctime)s %(levelprefix)-9s %(name)s -: %(client_addr)s - "%(request_line)s" %(status_code)s'
+    use_colors: False
 handlers:
   default:
-    class: logging.StreamHandler
+    class: logging.handlers.TimedRotatingFileHandler
     formatter: default
-    stream: ext://sys.stderr
+    filename: ./log/log.txt
   access:
-    class: logging.StreamHandler
+    class: logging.handlers.TimedRotatingFileHandler
     formatter: access
-    stream: ext://sys.stdout
+    filename: ./log/log.txt
 loggers:
   uvicorn:
     level: INFO
