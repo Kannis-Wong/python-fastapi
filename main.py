@@ -37,6 +37,13 @@ async def fetch_users():
     return db
 
 
+@app.get("/log")
+async def get_file():
+    with open("log/log.txt", "r") as f:
+        content = f.read()
+    return {"log": content}
+
+
 @app.post("/api/v1/users")
 async def register_user(user: User):
     db.append(user)
